@@ -166,3 +166,9 @@ const getCountryData = function (country) {
 
 getCountryData('bangladesh');
 ```
+
+-   Handling rejected promises
+
+```js
+
+```
