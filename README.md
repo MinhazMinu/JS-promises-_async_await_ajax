@@ -1,9 +1,45 @@
+https://restcountries.com/v2/
+
+###### AJAX
+
+```js
+const btn = document.querySelector('.btn-country');
+const countriesContainer = document.querySelector('.countries');
+
+const request = new XMLHttpRequest(); // Old way of doing AJAX
+request.open('GET', 'https://restcountries.com/v2/name/portugal'); // GET request
+request.send(); // Send request
+
+request.addEventListener('load', function () {
+    // Event listener for when the data is loaded
+    const [data] = JSON.parse(this.responseText); // Parse the data
+    const html = `
+
+  <article class="country">
+  <img class="country__img" src="${data.flag}" />
+  <div class="country__data">
+    <h3 class="country__name">${data.name}</h3>
+    <h4 class="country__region">${data.region}</h4>
+    <p class="country__row"><span>👫</span>${(
+        data.population / 1000000
+    ).toFixed(1)}</p>
+    <p class="country__row"><span>🗣️</span>${data.languages[0].name}</p>
+    <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
+  </div>
+</article>
+  `;
+    countriesContainer.insertAdjacentHTML('beforeend', html); // Insert the data into the HTML
+    countriesContainer.style.opacity = 1;
+});
+```
+
+-   Callback hell: Nested callbacks
+
+```js
 'use strict';
 
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
-
-///////////////////////////////////////
 
 const renderCountry = function (data, className = '') {
     const html = `
@@ -50,3 +86,4 @@ const getCountryData = function (country) {
 };
 
 getCountryData('bangladesh');
+```
