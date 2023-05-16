@@ -24,29 +24,44 @@ const renderCountry = function (data, className = '') {
     countriesContainer.style.opacity = 1;
 };
 
+// const getCountryData = function (country) {
+//     const request = new XMLHttpRequest();
+//     request.open('GET', `https://restcountries.com/v2/name/${country}`);
+//     request.send();
+
+//     request.addEventListener('load', function () {
+//         const [data] = JSON.parse(this.responseText);
+
+//         renderCountry(data);
+
+//         //  Get neighbour country
+
+//         const [neighbour] = data.borders;
+//         if (!neighbour) return;
+//         const request2 = new XMLHttpRequest();
+//         request2.open('GET', `https://restcountries.com/v2/alpha/${neighbour}`);
+//         request2.send();
+
+//         request2.addEventListener('load', function () {
+//             const data2 = JSON.parse(this.responseText);
+//             renderCountry(data2, 'neighbour');
+//         });
+//     });
+// };
+
+// getCountryData('bangladesh');
+
 const getCountryData = function (country) {
-    const request = new XMLHttpRequest();
-    request.open('GET', `https://restcountries.com/v2/name/${country}`);
-    request.send();
-
-    request.addEventListener('load', function () {
-        const [data] = JSON.parse(this.responseText);
-
-        renderCountry(data);
-
-        //  Get neighbour country
-
-        const [neighbour] = data.borders;
-        if (!neighbour) return;
-        const request2 = new XMLHttpRequest();
-        request2.open('GET', `https://restcountries.com/v2/alpha/${neighbour}`);
-        request2.send();
-
-        request2.addEventListener('load', function () {
-            const data2 = JSON.parse(this.responseText);
-            renderCountry(data2, 'neighbour');
-        });
-    });
+    const request = fetch(`https://restcountries.com/v2/name/${country}`)
+        .then(response => response.json())
+        .then(data => {
+            renderCountry(data[0]);
+            const neighbour = data[0].borders?.[0];
+            if (!neighbour) return;
+            return fetch(`https://restcountries.com/v2/alpha/${neighbour}`);
+        })
+        .then(response => response.json())
+        .then(data => renderCountry(data, 'neighbour'));
 };
 
 getCountryData('bangladesh');
