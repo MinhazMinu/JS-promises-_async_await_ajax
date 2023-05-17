@@ -3,8 +3,6 @@
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
-///////////////////////////////////////
-
 const renderCountry = function (data, className = '') {
     const html = `
     <article class="country  ${className}">
@@ -91,8 +89,6 @@ const renderCountry = function (data, className = '') {
 //             countriesContainer.style.opacity = 1;
 //         });
 // };
-
-// 130503854188453e15877326x64801
 
 // btn.addEventListener('click', function () {
 //     getCountryData('Australia');
